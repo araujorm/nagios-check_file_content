@@ -3,7 +3,7 @@
 #
 #         FILE:  check_file_content.pl
 #
-#        USAGE:  ./check_file_content.pl  
+#        USAGE:  ./check_file_content.pl
 #
 #  DESCRIPTION:  Nagios plugin to check file content
 #
@@ -12,7 +12,7 @@
 #         BUGS:  ---
 #        NOTES:  ---
 #       AUTHOR:  Pierre Mavro (), pierre@mavro.fr
-#      COMPANY:  
+#      COMPANY:
 #      VERSION:  0.1
 #      CREATED:  10/05/2010 09:25:56
 #     REVISION:  ---
@@ -38,10 +38,10 @@ sub help
     exit $RETCODES{"UNKNOWN"};
 }
 
-sub check_args 
+sub check_args
  {
         help if !@ARGV;
-        
+
         my ($file,@include,@exclude);
         my $num=1;
 
@@ -93,8 +93,8 @@ sub check_soft
 				last;
 			}
 		}
-		
-		# Shouldn't match 
+
+		# Shouldn't match
 		if (@exclude)
 		{
 			foreach (@exclude)
@@ -110,7 +110,7 @@ sub check_soft
 		$i++ if ($found == 1);
 	}
 	close(FILER);
-	
+
 	if ($i > 0)
 	{
 		if ($i >= $num)
@@ -121,7 +121,7 @@ sub check_soft
 		else
 		{
 			print "FAILED on $file. Found only $i on $num\n";
-			exit $RETCODES{"CRITICAL"};			
+			exit $RETCODES{"CRITICAL"};
 		}
 	}
 	else
