@@ -115,15 +115,12 @@ sub check_soft
 		}
 
 		# Shouldn't match
-		if (@$qr_exclude)
+		foreach (@$qr_exclude)
 		{
-			foreach (@$qr_exclude)
+			if ($line =~ $_)
 			{
-				if ($line =~ $_)
-				{
-					$found=0;
-					last;
-				}
+				$found=0;
+				last;
 			}
 		}
 
