@@ -12,9 +12,11 @@
 #         BUGS:  ---
 #        NOTES:  ---
 #       AUTHOR:  Pierre Mavro (), pierre@mavro.fr
+#                Rodrigo Araujo (version >= 0.2)
 #      COMPANY:
-#      VERSION:  0.1
+#      VERSION:  0.2
 #      CREATED:  10/05/2010 09:25:56
+#                07/2023 (version 0.2)
 #     REVISION:  ---
 #===============================================================================
 
