@@ -38,6 +38,25 @@ sub help
 	exit $RETCODES{"UNKNOWN"};
 }
 
+sub check_compile_regexps
+{
+	my $list = shift;
+
+	my @qr_list;
+	foreach my $r (@$list)
+	{
+		my $qr = eval { qr/$r/ };
+		if ($@)
+		{
+			print "Invalid regex \"$r\": $@";
+			exit $RETCODES{"UNKNOWN"};
+		}
+		push @qr_list, $qr;
+	}
+
+	return \@qr_list;
+}
+
 sub check_args
 {
 	help if !@ARGV;
@@ -58,20 +77,19 @@ sub check_args
 	{
 	        &help;
 	}
-	else
-	{
-	        check_soft($file,$num,\@include,\@exclude);
-	}
+
+	my $qr_include = check_compile_regexps(\@include);
+	my $qr_exclude = check_compile_regexps(\@exclude);
+
+        check_soft($file,$num,$qr_include,$qr_exclude);
 }
 
 sub check_soft
 {
 	my $file=shift;
 	my $num=shift;
-	my $ref_include=shift;
-	my $ref_exclude=shift;
-	my @include = @$ref_include;
-	my @exclude = @$ref_exclude;
+	my $qr_include=shift;
+	my $qr_exclude=shift;
 	my $i=0;
 
 	if (!open(FILER, '<', $file))
@@ -87,9 +105,9 @@ sub check_soft
 		my $found=0;
 
 		# Should match
-		foreach (@include)
+		foreach (@$qr_include)
 		{
-			if ($line =~ /$_/)
+			if ($line =~ $_)
 			{
 				$found=1;
 				last;
@@ -97,11 +115,11 @@ sub check_soft
 		}
 
 		# Shouldn't match
-		if (@exclude)
+		if (@$qr_exclude)
 		{
-			foreach (@exclude)
+			foreach (@$qr_exclude)
 			{
-				if ($line =~ /$_/)
+				if ($line =~ $_)
 				{
 					$found=0;
 					last;
