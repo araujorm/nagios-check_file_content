@@ -31,6 +31,7 @@ sub help
 	print "Options :\n";
 	print " -f\n\tFull path to file to analyze\n";
 	print " -n\n\tNumber of lines to find (default is 1)\n";
+	print " -m\n\tMaximum number of lines to search on (default is all)\n";
 	print " -i\n\tInclude pattern (can add multiple include)\n";
 	print " -e\n\tExclude pattern (can add multiple include)\n";
 	print " -h, --help\n\tPrint this help screen\n";
@@ -61,7 +62,7 @@ sub check_args
 {
 	help if !@ARGV;
 
-	my ($file,@include,@exclude);
+	my ($file,@include,@exclude,$maxlines);
 	my $num=1;
 
 	# Set options
@@ -70,7 +71,8 @@ sub check_args
 		"f=s"    => \$file,
 		"i=s"    => \@include,
 		"e=s"    => \@exclude,
-		"n=i"    => \$num
+		"n=i"    => \$num,
+		"m=i"    => \$maxlines,
 	);
 
 	unless (defined($file) and (@include))
@@ -81,13 +83,14 @@ sub check_args
 	my $qr_include = check_compile_regexps(\@include);
 	my $qr_exclude = check_compile_regexps(\@exclude);
 
-        check_soft($file,$num,$qr_include,$qr_exclude);
+        check_soft($file,$num,$maxlines,$qr_include,$qr_exclude);
 }
 
 sub check_soft
 {
 	my $file=shift;
 	my $num=shift;
+	my $maxlines=shift;
 	my $qr_include=shift;
 	my $qr_exclude=shift;
 	my $i=0;
@@ -98,8 +101,17 @@ sub check_soft
 		exit $RETCODES{"UNKNOWN"};
 	}
 
+	my $l=0;
 	while(<FILER>)
 	{
+		if (defined($maxlines))
+		{
+			$l++;
+			if ($l > $maxlines)
+			{
+				last;
+			}
+		}
 		chomp($_);
 		my $line=$_;
 		my $found=0;
