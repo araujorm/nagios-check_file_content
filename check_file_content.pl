@@ -95,7 +95,7 @@ sub check_soft
 	if (!open(FILER, '<', $file))
 	{
 		print "Can't open $file: $!\n";
-		exit $RETCODES{"CRITICAL"};
+		exit $RETCODES{"UNKNOWN"};
 	}
 
 	while(<FILER>)
