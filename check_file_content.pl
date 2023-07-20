@@ -74,7 +74,7 @@ sub check_soft
 	my @exclude = @$ref_exclude;
 	my $i=0;
 
-	if (!open(FILER, "<$file"))
+	if (!open(FILER, '<', $file))
 	{
 		print "Can't open $file: $!\n";
 		exit $RETCODES{"CRITICAL"};
