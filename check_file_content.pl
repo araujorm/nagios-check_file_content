@@ -54,7 +54,7 @@ sub check_args
 		"n=i"    => \$num
 	);
 
-	unless (($file) and (@include))
+	unless (defined($file) and (@include))
 	{
 	        &help;
 	}
