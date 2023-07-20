@@ -80,6 +80,18 @@ sub check_args
 	        &help;
 	}
 
+	unless ($num >= 1)
+	{
+		print "Minimum number of lines to find is 1\n";
+		exit $RETCODES{"UNKNOWN"};
+	}
+
+	if (defined($maxlines) && $maxlines < 1)
+	{
+		print "Maximum number of lines to search on should be at least 1\n";
+		exit $RETCODES{"UNKNOWN"};
+	}
+
 	my $qr_include = check_compile_regexps(\@include);
 	my $qr_exclude = check_compile_regexps(\@exclude);
 
