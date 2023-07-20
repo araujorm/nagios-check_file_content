@@ -27,39 +27,41 @@ my %RETCODES = ('OK' => 0, 'WARNING' => 1, 'CRITICAL' => 2, 'UNKNOWN' => 3);
 # Help
 sub help
 {
-    print "Usage : check_file_content.pl -f file -i include -e exclude -n lines_number [-h]\n\n";
+	print "Usage : check_file_content.pl -f file -i include -e exclude -n lines_number [-h]\n\n";
 	print "Options :\n";
-    print " -f\n\tFull path to file to analyze\n";
-    print " -n\n\tNumber of lines to find (default is 1)\n";
-    print " -i\n\tInclude pattern (can add multiple include)\n";
-    print " -e\n\tExclude pattern (can add multiple include)\n";
+	print " -f\n\tFull path to file to analyze\n";
+	print " -n\n\tNumber of lines to find (default is 1)\n";
+	print " -i\n\tInclude pattern (can add multiple include)\n";
+	print " -e\n\tExclude pattern (can add multiple include)\n";
 	print " -h, --help\n\tPrint this help screen\n";
-    print "\nExample : check_file_content.pl -f /etc/passwd -i 0 -e root -n 5\n";
-    exit $RETCODES{"UNKNOWN"};
+	print "\nExample : check_file_content.pl -f /etc/passwd -i 0 -e root -n 5\n";
+	exit $RETCODES{"UNKNOWN"};
 }
 
 sub check_args
- {
-        help if !@ARGV;
+{
+	help if !@ARGV;
 
-        my ($file,@include,@exclude);
-        my $num=1;
+	my ($file,@include,@exclude);
+	my $num=1;
 
-        # Set options
-         GetOptions( 	"help|h"    => \&help,
-                		"f=s"   	=> \$file,
-                		"i=s"		=> \@include,
-                		"e=s"		=> \@exclude,
-                		"n=i"       => \$num);
+	# Set options
+	 GetOptions(
+		"help|h" => \&help,
+		"f=s"    => \$file,
+		"i=s"    => \@include,
+		"e=s"    => \@exclude,
+		"n=i"    => \$num
+	);
 
-        unless (($file) and (@include))
-        {
-                &help;
-        }
-        else
-        {
-                check_soft($file,$num,\@include,\@exclude);
-        }
+	unless (($file) and (@include))
+	{
+	        &help;
+	}
+	else
+	{
+	        check_soft($file,$num,\@include,\@exclude);
+	}
 }
 
 sub check_soft
