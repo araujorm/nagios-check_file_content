@@ -27,13 +27,13 @@ my %RETCODES = ('OK' => 0, 'WARNING' => 1, 'CRITICAL' => 2, 'UNKNOWN' => 3);
 # Help
 sub help
 {
-	print "Usage : check_file_content.pl -f file -i include -e exclude -n lines_number [-h]\n\n";
+	print "Usage : check_file_content.pl -f file -i include [-e exclude] [-n lines_number] [-m max_search] [-h]\n\n";
 	print "Options :\n";
-	print " -f\n\tFull path to file to analyze\n";
+	print " -f\n\tFull path to file to analyze (mandatory)\n";
 	print " -n\n\tNumber of lines to find (default is 1)\n";
 	print " -m\n\tMaximum number of lines to search on (default is all)\n";
-	print " -i\n\tInclude pattern (can add multiple include)\n";
-	print " -e\n\tExclude pattern (can add multiple include)\n";
+	print " -i\n\tInclude pattern (mandatory, can be repeated multiple times)\n";
+	print " -e\n\tExclude pattern (can be repeated multiple times)\n";
 	print " -h, --help\n\tPrint this help screen\n";
 	print "\nExample : check_file_content.pl -f /etc/passwd -i 0 -e root -n 5\n";
 	exit $RETCODES{"UNKNOWN"};
